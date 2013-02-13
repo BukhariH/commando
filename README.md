@@ -82,14 +82,11 @@ $ mysql --user=USERNAME --pass=PASSWORD --host=SERVERHOST < /schema/latest.sql
 
 **10.)** Create a database `commando` and a collection `executions` in MongoDB. *If you need MongoDB hosting check out https://mongohq.com or https://mongolab.com.*
 
+
 **11.)** Create the following standard indexes on the `executions` collection in MongoDB:   
 
-```` json
-{ "executed" : 1 }
-{ "groups" : 1 }
-{ "recipes.id" : 1 }
-{ "servers.id" : 1 }
-{ "recipes.interpreter" : 1 }
+```` bash
+db.executions.ensureIndex({ "executed" : 1 },{ "groups" : 1 },{ "recipes.id" : 1 },{ "servers.id" : 1 },{ "recipes.interpreter" : 1 });
 ````
 
 **12.)** Create a user in MongoDB to connect with.
