@@ -82,14 +82,21 @@ $ mysql --user=USERNAME --pass=PASSWORD --host=SERVERHOST < /schema/latest.sql
 
 **10.)** Create a database `commando` and a collection `executions` in MongoDB. *If you need MongoDB hosting check out https://mongohq.com or https://mongolab.com.*
 
+````` bash
+mongo
+> use commando;
+> db.createCollection('executions');
+`````
 
-**11.)** Create the following standard indexes on the `executions` collection in MongoDB:   
-
-```` bash
-db.executions.ensureIndex({ "executed" : 1 },{ "groups" : 1 },{ "recipes.id" : 1 },{ "servers.id" : 1 },{ "recipes.interpreter" : 1 });
-````
+**11.)** Set the index on the executions collection.
+````` bash
+> db.executions.ensureIndex({ "executed" : 1 },{ "groups" : 1 },{ "recipes.id" : 1 },{ "servers.id" : 1 },{ "recipes.interpreter" : 1 });
+`````
 
 **12.)** Create a user in MongoDB to connect with.
+````` bash
+> db.addUser("<username>", "<password>")
+`````
 
 **13.)** Edit `/classes/MongoConfiguration.php` and provide the connection details to MongoDB.
 
@@ -123,6 +130,16 @@ $HTTP["host"] =~ "^(your-domain-here\.com)$" {
 		"^[^\.]+$" => "controller.php/$1"
 	)
 }
+````
+
+##### Apache #####
+````
+#.htaccess
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^ index.php [QSA,L]
+Options -indexes 
+
 ````
 
 Recipe Markup (rMarkup)
